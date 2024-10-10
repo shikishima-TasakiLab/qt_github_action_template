@@ -63,6 +63,7 @@ jobs:
         run: |
           IF "%QT_VERSION:~0,1%"=="5" ( dir %Qt5_DIR% ) ELSE ( dir %QT_ROOT_DIR%\lib\cmake )
           cmake -S . -B ./build
+          cmake --build build
         shell: cmd
 
       - name: Configure test project on unix
@@ -76,6 +77,7 @@ jobs:
             ls "${Qt5_DIR}"
           fi
           cmake -S . -B ./build
+          cmake --build build
         shell: bash
       
       - name: ls on windows
