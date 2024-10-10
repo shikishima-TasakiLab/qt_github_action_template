@@ -18,7 +18,8 @@ jobs:
             artifact: "Windows-x64.zip",
             os: windows-latest,
             qt_install_host: windows,
-            qt_install_arch: win64_mingw
+            qt_install_arch: win64_mingw,
+            qt_install_tools: ''
           }
           - {
             name: "Linux Latest x64", artifact: "Linux-x64.zip",
@@ -47,7 +48,6 @@ jobs:
           dir: '${{ github.workspace }}/lib/'
           install-deps: 'true'
           modules:
-          archives: qtbase
           cache: 'false'
           cache-key-prefix: 'install-qt-action'
           tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
