@@ -19,20 +19,22 @@ jobs:
             os: windows-latest,
             qt_install_host: windows,
             qt_install_arch: win64_mingw,
-            qt_install_tools: ''
+            qt_install_tools: 'tools_mingw1310'
           }
           - {
             name: "Linux Latest x64", artifact: "Linux-x64.zip",
             os: ubuntu-latest,
             qt_install_host: linux,
-            qt_install_arch: linux_gcc_64
+            qt_install_arch: linux_gcc_64,
+            qt_install_tools:
           }
           - {
             name: "macOS Latest x64", artifact: "macOS-x64.zip",
             os: macos-latest,
             qt_install_host: mac,
-            qt_install_arch: clang_64
-          }
+            qt_install_arch: clang_64,
+            qt_install_tools:
+            }
 
     steps:
       - name: Checkout Repository
@@ -50,7 +52,7 @@ jobs:
           modules:
           cache: 'false'
           cache-key-prefix: 'install-qt-action'
-          tools: 'tools_ifw tools_qtcreator,qt.tools.qtcreator'
+          tools: ${{ matrix.config.qt_install_tools }}
           set-env: 'true'
           tools-only: 'false'
           aqtversion: '==3.1.*'
