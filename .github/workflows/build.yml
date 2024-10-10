@@ -62,8 +62,8 @@ jobs:
           QT_VERSION: ${{ env.QT_VERSION }}
         run: |
           IF "%QT_VERSION:~0,1%"=="5" ( dir %Qt5_DIR% ) ELSE ( dir %QT_ROOT_DIR%\lib\cmake )
-          cmake -G'MinGW Makefiles' -S . -B ./build
-          cmake -G'MinGW Makefiles' --build build
+          cmake -G"MinGW Makefiles" -S . -B ./build
+          cmake -G"MinGW Makefiles" --build build
         shell: cmd
 
       - name: Build on Unix
