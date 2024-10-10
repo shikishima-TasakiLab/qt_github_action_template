@@ -56,17 +56,17 @@ jobs:
           aqtversion: '==3.1.*'
           py7zrversion: '==0.20.*'
 
-      - name: Configure test project on windows
+      - name: Build on Windows
         if: ${{ matrix.config.qt_install_host == 'windows' }}
         env:
           QT_VERSION: ${{ env.QT_VERSION }}
         run: |
           IF "%QT_VERSION:~0,1%"=="5" ( dir %Qt5_DIR% ) ELSE ( dir %QT_ROOT_DIR%\lib\cmake )
-          cmake -S . -B ./build
-          cmake --build build
+          cmake -G'MSYS Makefiles' -S . -B ./build
+          cmake -G'MSYS Makefiles' --build build
         shell: cmd
 
-      - name: Configure test project on unix
+      - name: Build on Unix
         if: ${{ matrix.config.qt_install_host != 'windows' }}
         env:
           QT_VERSION: ${{ env.QT_VERSION }}
@@ -80,14 +80,14 @@ jobs:
           cmake --build build
         shell: bash
       
-      - name: ls on windows
+      - name: ls on Windows
         if: ${{ matrix.config.qt_install_host == 'windows' }}
         run: |
           dir
           cd build
           dir
 
-      - name: ls on unix
+      - name: ls on Unix
         if: ${{ matrix.config.qt_install_host != 'windows' }}
         run: |
           ls -lh
