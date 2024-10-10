@@ -10,6 +10,7 @@ jobs:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     strategy:
+      fail-fast: false
       matrix:
         config:
           - {
@@ -70,7 +71,6 @@ jobs:
         env:
           QT_VERSION: ${{ env.QT_VERSION }}
         run: |
-          cd tests/TestWithModules
           if [[ $QT_VERSION == 6* ]]; then
             ls "${QT_ROOT_DIR}/lib/cmake"
           else
