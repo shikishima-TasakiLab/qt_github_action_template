@@ -78,6 +78,16 @@ jobs:
           cmake -S . -B ./build
         shell: bash
       
-      - name: ls
+      - name: ls on windows
+        if: ${{ matrix.config.qt_install_host == 'windows' }}
         run: |
+          dir
+          cd build
+          dir
+
+      - name: ls on unix
+        if: ${{ matrix.config.qt_install_host != 'windows' }}
+        run: |
+          ls -lh
+          cd build
           ls -lh
