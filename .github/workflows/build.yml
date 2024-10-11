@@ -118,3 +118,9 @@ jobs:
             ls -lh
           fi
         shell: bash
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.config.artifact }}
+          path: ${{ github.workspace }}/install/**
