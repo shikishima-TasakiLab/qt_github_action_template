@@ -91,14 +91,13 @@ jobs:
       - name: ls on Windows
         if: ${{ matrix.config.qt_install_host == 'windows' }}
         run: |
-          echo "${{ github.workspace }}/src"
           cd ${{ github.workspace }}/src
           dir
-          echo "${{ github.workspace }}/build"
           cd ${{ github.workspace }}/build
           dir
-          echo "${{ github.workspace }}/install"
           cd ${{ github.workspace }}/install
+          dir
+          cd ${{ github.workspace }}/install/bin
           dir
 
       - name: ls on Unix
@@ -112,4 +111,6 @@ jobs:
           ls -lh
           echo "${{ github.workspace }}/install"
           cd ${{ github.workspace }}/install
+          ls -lh
+          cd ${{ github.workspace }}/install/bin
           ls -lh
