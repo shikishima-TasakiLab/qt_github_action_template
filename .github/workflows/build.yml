@@ -69,7 +69,7 @@ jobs:
           cd src
           cmake -G"MinGW Makefiles" -S . -B ../build
           cmake --build ../build
-
+          cmake --install . --prefix="../install"
         shell: cmd
 
       - name: Build on Unix
@@ -85,20 +85,31 @@ jobs:
           cd src
           cmake -S . -B ../build
           cmake --build ../build
+          cmake --install . --prefix="../install"
         shell: bash
       
       - name: ls on Windows
         if: ${{ matrix.config.qt_install_host == 'windows' }}
         run: |
+          echo "${{ github.workspace }}/src"
           cd ${{ github.workspace }}/src
           dir
+          echo "${{ github.workspace }}/build"
           cd ${{ github.workspace }}/build
+          dir
+          echo "${{ github.workspace }}/install"
+          cd ${{ github.workspace }}/install
           dir
 
       - name: ls on Unix
         if: ${{ matrix.config.qt_install_host != 'windows' }}
         run: |
+          echo "${{ github.workspace }}/src"
           cd ${{ github.workspace }}/src
           ls -lh
+          echo "${{ github.workspace }}/build"
           cd ${{ github.workspace }}/build
+          ls -lh
+          echo "${{ github.workspace }}/install"
+          cd ${{ github.workspace }}/install
           ls -lh
