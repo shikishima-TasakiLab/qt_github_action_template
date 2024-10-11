@@ -99,6 +99,7 @@ jobs:
           dir
           cd ${{ github.workspace }}/install/bin
           dir
+        shell: cmd
 
       - name: ls on Unix
         if: ${{ matrix.config.qt_install_host != 'windows' }}
@@ -112,5 +113,8 @@ jobs:
           echo "${{ github.workspace }}/install"
           cd ${{ github.workspace }}/install
           ls -lh
-          cd ${{ github.workspace }}/install/bin
-          ls -lh
+          if [[ -d ${{ github.workspace }}/install/bin ]]; then
+            cd ${{ github.workspace }}/install/bin
+            ls -lh
+          fi
+        shell: bash
