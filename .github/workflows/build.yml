@@ -69,7 +69,7 @@ jobs:
           cd src
           cmake -G"MinGW Makefiles" -S . -B ../build
           cmake --build ../build
-          cmake --install . --prefix="../install"
+          cmake --install ../build --prefix="../install"
         shell: cmd
 
       - name: Build on Unix
@@ -85,7 +85,7 @@ jobs:
           cd src
           cmake -S . -B ../build
           cmake --build ../build
-          cmake --install . --prefix="../install"
+          cmake --install ../build --prefix="../install"
         shell: bash
       
       - name: ls on Windows
