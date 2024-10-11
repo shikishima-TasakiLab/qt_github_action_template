@@ -1,6 +1,10 @@
 name: Build Matrix
 
-on: [push]
+on: 
+  push:
+    paths-ignore:
+      - '.gitignore'
+      - '*.md'
 
 env:
   QT_VERSION: 6.8.0
@@ -15,21 +19,23 @@ jobs:
         config:
           - {
             name: "Windows Latest x64",
-            artifact: "Windows-x64.zip",
+            artifact: "Windows-x64",
             os: windows-latest,
             qt_install_host: windows,
             qt_install_arch: win64_mingw,
             qt_install_tools: 'tools_mingw1310'
           }
           - {
-            name: "Linux Latest x64", artifact: "Linux-x64.zip",
+            name: "Linux Latest x64",
+            artifact: "Linux-x64",
             os: ubuntu-latest,
             qt_install_host: linux,
             qt_install_arch: linux_gcc_64,
             qt_install_tools:
           }
           - {
-            name: "macOS Latest x64", artifact: "macOS-x64.zip",
+            name: "macOS Latest x64",
+            artifact: "macOS-x64",
             os: macos-latest,
             qt_install_host: mac,
             qt_install_arch: clang_64,
@@ -88,36 +94,36 @@ jobs:
           cmake --install ../build --prefix="${{ github.workspace }}/install"
         shell: bash
       
-      - name: ls on Windows
-        if: ${{ matrix.config.qt_install_host == 'windows' }}
-        run: |
-          cd ${{ github.workspace }}/src
-          dir
-          cd ${{ github.workspace }}/build
-          dir
-          cd ${{ github.workspace }}/install
-          dir
-          cd ${{ github.workspace }}/install/bin
-          dir
-        shell: cmd
+      # - name: ls on Windows
+      #   if: ${{ matrix.config.qt_install_host == 'windows' }}
+      #   run: |
+      #     cd ${{ github.workspace }}/src
+      #     dir
+      #     cd ${{ github.workspace }}/build
+      #     dir
+      #     cd ${{ github.workspace }}/install
+      #     dir
+      #     cd ${{ github.workspace }}/install/bin
+      #     dir
+      #   shell: cmd
 
-      - name: ls on Unix
-        if: ${{ matrix.config.qt_install_host != 'windows' }}
-        run: |
-          echo "${{ github.workspace }}/src"
-          cd ${{ github.workspace }}/src
-          ls -lh
-          echo "${{ github.workspace }}/build"
-          cd ${{ github.workspace }}/build
-          ls -lh
-          echo "${{ github.workspace }}/install"
-          cd ${{ github.workspace }}/install
-          ls -lh
-          if [[ -d ${{ github.workspace }}/install/bin ]]; then
-            cd ${{ github.workspace }}/install/bin
-            ls -lh
-          fi
-        shell: bash
+      # - name: ls on Unix
+      #   if: ${{ matrix.config.qt_install_host != 'windows' }}
+      #   run: |
+      #     echo "${{ github.workspace }}/src"
+      #     cd ${{ github.workspace }}/src
+      #     ls -lh
+      #     echo "${{ github.workspace }}/build"
+      #     cd ${{ github.workspace }}/build
+      #     ls -lh
+      #     echo "${{ github.workspace }}/install"
+      #     cd ${{ github.workspace }}/install
+      #     ls -lh
+      #     if [[ -d ${{ github.workspace }}/install/bin ]]; then
+      #       cd ${{ github.workspace }}/install/bin
+      #       ls -lh
+      #     fi
+      #   shell: bash
 
       - name: Upload
         uses: actions/upload-artifact@v4
