@@ -39,6 +39,8 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          path: src
       
       - name: Install Qt
         uses: jurplel/install-qt-action@v4
@@ -47,7 +49,7 @@ jobs:
           host: ${{ matrix.config.qt_install_host }}
           target: 'desktop'
           arch: ${{ matrix.config.qt_install_arch }}
-          dir: '${{ github.workspace }}/lib/'
+          dir: '${{ github.workspace }}/local/'
           install-deps: 'true'
           modules:
           cache: 'false'
@@ -64,8 +66,10 @@ jobs:
           QT_VERSION: ${{ env.QT_VERSION }}
         run: |
           IF "%QT_VERSION:~0,1%"=="5" ( dir %Qt5_DIR% ) ELSE ( dir %QT_ROOT_DIR%\lib\cmake )
-          cmake -G"MinGW Makefiles" -S . -B ./build
-          cmake --build build
+          cd src
+          cmake -G"MinGW Makefiles" -S . -B ../build
+          cmake --build ../build
+
         shell: cmd
 
       - name: Build on Unix
@@ -78,20 +82,23 @@ jobs:
           else
             ls "${Qt5_DIR}"
           fi
-          cmake -S . -B ./build
-          cmake --build build
+          cd src
+          cmake -S . -B ../build
+          cmake --build ../build
         shell: bash
       
       - name: ls on Windows
         if: ${{ matrix.config.qt_install_host == 'windows' }}
         run: |
+          cd ${{ github.workspace }}/src
           dir
-          cd build
+          cd ${{ github.workspace }}/build
           dir
 
       - name: ls on Unix
         if: ${{ matrix.config.qt_install_host != 'windows' }}
         run: |
+          cd ${{ github.workspace }}/src
           ls -lh
-          cd build
+          cd ${{ github.workspace }}/build
           ls -lh
